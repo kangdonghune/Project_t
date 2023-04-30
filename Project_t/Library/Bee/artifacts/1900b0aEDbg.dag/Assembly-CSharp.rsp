@@ -364,8 +364,12 @@
 "Assets/Scripts/01.Managers/Managers.cs"
 "Assets/Scripts/01.Managers/ResourceManager.cs"
 "Assets/Scripts/02.Controller/01.Inputs/PlayerInput.cs"
+"Assets/Scripts/02.Controller/02.Monsters/BearController.cs"
+"Assets/Scripts/02.Controller/02.Monsters/DogController.cs"
+"Assets/Scripts/02.Controller/02.Monsters/MonsterController.cs"
 "Assets/Scripts/02.Controller/CameraController.cs"
 "Assets/Scripts/02.Controller/PlayerController.cs"
+"Assets/Scripts/03.Interfaces/IDamageable.cs"
 "Assets/Scripts/99.Util/Define.cs"
 -langversion:9.0
 
