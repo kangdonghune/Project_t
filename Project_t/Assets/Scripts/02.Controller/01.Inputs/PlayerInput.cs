@@ -12,11 +12,12 @@ public class PlayerInput : MonoBehaviour
     private NavMeshAgent _agent = null;
     private Animator _ani = null;
     private PlayerController _playerCtrl = null;
+    private UI_Inventory _inven = null;
 
     //마우스 이벤트 관련 마스크
     private int _mask = (1 << (int)Define.Layer.Floor);
 
-    void Start()
+    void Init()
     {
         _cam = Camera.main;
         _trans = GetComponent<Transform>();
@@ -34,15 +35,14 @@ public class PlayerInput : MonoBehaviour
         Managers.Input.MouseAction -= MouseEvent;
         Managers.Input.MouseAction += MouseEvent;
 
+        //인벤토리 생성 및 연결
+        _inven = Managers.UI.CreateSceneUI<UI_Inventory>();
+
     }
-    //키 입력은 스킬, ui 등등 담당
-    private void KeyEvent(Define.KeyEvent evt)
+
+    private void Start()
     {
-        switch(evt)
-        {
-            case Define.KeyEvent.Down:
-                break;
-        }
+        Init();
     }
 
     //마우스 입력은 이동
@@ -77,5 +77,32 @@ public class PlayerInput : MonoBehaviour
                     break;
             }
         }
+    }
+
+    //키 입력은 스킬, ui 등등 담당
+    private void KeyEvent(Define.KeyEvent evt)
+    {
+        switch (evt)
+        {
+            case Define.KeyEvent.Down:
+                KeyDown();
+                break;
+        }
+    }
+    //키 입력에 따른 입력 처리
+
+    private void KeyDown()
+    {
+        if(Input.GetKeyDown(KeyCode.I) == true)
+        {
+            InvenEnableChange();
+        }
+    }
+
+    public void InvenEnableChange()
+    {
+        Canvas canvas = _inven.GetComponent<Canvas>();
+        Managers.UI.CanvasEnableChange<UI_Inventory>(canvas.enabled);
+
     }
 }

@@ -39,6 +39,7 @@ public abstract class MonsterController : MonoBehaviour, IDamageable
         _agent.updateRotation = false;
         _trans = transform;
         _ctrl = GetComponent<CharacterController>();
+        Init();
     }
 
     protected abstract void Init();

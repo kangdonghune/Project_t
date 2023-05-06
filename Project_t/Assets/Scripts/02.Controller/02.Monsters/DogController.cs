@@ -15,7 +15,6 @@ public class DogController : MonsterController
     
     void Start()
     {
-        Init();
         StartCoroutine("CoCheckState");
     }
 

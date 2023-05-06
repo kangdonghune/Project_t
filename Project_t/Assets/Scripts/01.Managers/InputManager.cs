@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 
 public class InputManager
 {
@@ -16,6 +16,7 @@ public class InputManager
 
     public void OnUpdate()
     {
+       
         if (KeyAction != null) //예약된 키 입력 관련 함수가 있을 경우
         {
             if (Input.anyKeyDown)
@@ -25,6 +26,10 @@ public class InputManager
             if (!Input.anyKey)
                 KeyAction.Invoke(Define.KeyEvent.None);
         }
+
+        //UI 쪽으로 입력이 들어간 상태라면 아래 마우스 관련 입력을 생략
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
 
         if (MouseAction != null)//예약된 마우스 입력 함수가 있을 경우
         {

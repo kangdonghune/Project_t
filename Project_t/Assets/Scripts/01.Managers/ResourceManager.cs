@@ -14,7 +14,7 @@ public class ResourceManager
 
     public GameObject Instantiate(string path, Transform parent = null)
     {
-        GameObject original = Load<GameObject>($"Prefab/{path}");
+        GameObject original = Load<GameObject>($"01.Prefabs/{path}");
         //로드 실패 시
         if (original == null)
             return null;

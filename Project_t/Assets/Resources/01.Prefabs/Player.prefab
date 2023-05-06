@@ -1585,9 +1585,10 @@ GameObject:
   - component: {fileID: 3069249609968746434}
   - component: {fileID: 1000796460}
   - component: {fileID: 1000796461}
+  - component: {fileID: 1000796462}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1670,10 +1671,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 100
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1706,6 +1707,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56b008e95bf485468c2c398285f4b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  State: 0
+  speed: 10
+  turnSpeed: 20
+--- !u!143 &1000796462
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3069249609633133348}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3069249609633133352
 GameObject:
   m_ObjectHideFlags: 0
