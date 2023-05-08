@@ -16,6 +16,11 @@ public static class Extension
         return Utill.GetOrAddComponent<T>(go);
     }
 
+    public static T FindParent<T>(this GameObject go, string name = null) where T : UnityEngine.Object
+    {
+        return Utill.FindParent<T>(go, name);
+    }
+
     public static GameObject FindChild(this GameObject go, string name = null, bool recursive = false)
     {
         return Utill.FindChild(go, name, recursive);

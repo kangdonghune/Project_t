@@ -18,7 +18,11 @@ public class UIManager
             GameObject root = GameObject.Find("@UI_Root");
             {
                 if (root == null)
+                {
                     root = new GameObject { name = "@UI_Root" };
+                    root.AddComponent<UI_Root>();
+                }
+
             }
             return root;
         }
@@ -42,10 +46,21 @@ public class UIManager
         }
     }
 
-    //인벤토리나 스텟창 등 제거할 ui는 아니지만 키 입력에 따라 활성화, 비활성화가 필요한 경우 사용
-    public void CanvasEnableChange<T>(bool isAble,int index = 0) where T : UI_Scene
+    public void ChangeOrder(GameObject go, int order)
     {
-        Canvas canvas = _sceneDic[typeof(T)][index].GetComponent<Canvas>();
+        Canvas canvas = Utill.GetOrAddComponent<Canvas>(go);
+        canvas.sortingOrder = order;
+    }
+
+    //인벤토리나 스텟창 등 제거할 ui는 아니지만 키 입력에 따라 활성화, 비활성화가 필요한 경우 사용
+    //해당 ui가 여러 개 존재하는 경우에는 2인자로 키고 끄고자 하는 캔버스 지정(이럴 일이 있을까 싶긴하다.)
+    public void CanvasEnableChange<T>(bool isAble, UI_Scene UI = null) where T : UI_Base
+    {
+        Canvas canvas;
+        if (UI == null)
+            canvas = _sceneDic[typeof(T)][0].GetComponent<Canvas>();
+        else
+            canvas = _sceneDic[typeof(T)].Find(sceneUI => sceneUI = UI).GetComponent<Canvas>(); 
         if(canvas == null)
         {
             Debug.LogError($"CanvasDisable Failed ({typeof(T)})");
@@ -55,7 +70,12 @@ public class UIManager
         canvas.enabled = !isAble;
     }
 
-    public T CreateSceneUI<T>(string name = null) where T : UI_Scene
+    public T GetSceneUI<T>() where T : UI_Scene
+    {
+        return _sceneDic[typeof(T)][0] as T;
+    }
+
+    public T CreateSceneUI<T>(string name = null, Transform parent = null) where T : UI_Scene
     {
         if (string.IsNullOrEmpty(name))
             name = typeof(T).Name; // 이름 null값이면 타입값으로 이름 설정
@@ -64,12 +84,15 @@ public class UIManager
 
         if (_sceneDic.ContainsKey(typeof(T)) == false)
             _sceneDic.Add(typeof(T), new List<UI_Scene>());
-        _sceneDic[typeof(T)].Add(sceneUI); 
+        _sceneDic[typeof(T)].Add(sceneUI);
 
-        go.transform.SetParent(Root.transform);
-
+        if (parent == null)
+            go.transform.SetParent(Root.transform);
+        else
+            go.transform.SetParent(parent);
         return sceneUI;
     }
+
 
     public T CreatePopupUI<T>(string name = null) where T : UI_Popup
     {

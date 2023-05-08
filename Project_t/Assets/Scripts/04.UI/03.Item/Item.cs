@@ -12,5 +12,5 @@ public class Item : Item_Base
         this.Count = count;
     }
 
-    public void AddCount(int count) { this.Count += count; }
+    public void AddCount(int count) { this.Count += count;  }
 }

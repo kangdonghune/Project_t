@@ -42,11 +42,7 @@ public class PlayerController : MonoBehaviour
         float dist = (_agent.destination - _trans.position).magnitude;
         if (dist <= 0.5f)
         {
-            State = Define.State.Idle;
-            _ani.SetBool("IsMove", false);
-            // 캐릭터가 멈추는 시점에서 네비 메쉬의 가속도와 작동 여부를 같이 멈춰줘야 네비메쉬가 어긋나서 따로 움직이지 않는다.
-            _agent.isStopped = true;
-            _agent.velocity = Vector3.zero;
+            Stop();
             return;
         }
         Vector3 lookPos = _agent.destination - _trans.position;
@@ -54,5 +50,14 @@ public class PlayerController : MonoBehaviour
         _trans.rotation = Quaternion.Slerp(_trans.rotation, Quaternion.LookRotation(lookPos), speed * Time.deltaTime);
         _ctrl.Move(_agent.desiredVelocity.normalized * speed * Time.deltaTime);
         _agent.velocity = _ctrl.velocity;
+    }
+
+    public void Stop()
+    {
+        State = Define.State.Idle;
+        _ani.SetBool("IsMove", false);
+        // 캐릭터가 멈추는 시점에서 네비 메쉬의 가속도와 작동 여부를 같이 멈춰줘야 네비메쉬가 어긋나서 따로 움직이지 않는다.
+        _agent.isStopped = true;
+        _agent.velocity = Vector3.zero;
     }
 }

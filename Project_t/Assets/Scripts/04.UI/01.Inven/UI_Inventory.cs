@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Inventory : UI_InvenBase
@@ -28,9 +29,10 @@ public class UI_Inventory : UI_InvenBase
         for (int i = 0; i < _slotCount; i++)
         {
             _slotList.Add(Managers.Resource.Instantiate("UI/Scene/Slot/ItemSlot", grid.transform).GetOrAddComponent<UI_ItemSlot>());
+            _slotList[i].slotNum = i;
         }
         //슬롯을 만들어도 바인딩은 다음 틱에서 실행되니 인벤 로드는 코루틴을 이용해 한 틱 쉰 다음에 실행시켜야 바인딩 널레퍼런스 문제가 안 생긴다.
-        StartCoroutine("CoSlotLoad");
+        StartCoroutine("CoAfterBinding");
         Managers.UI.CanvasEnableChange<UI_Inventory>(true);
     }
 

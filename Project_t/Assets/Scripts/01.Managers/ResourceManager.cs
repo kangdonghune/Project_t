@@ -26,6 +26,16 @@ public class ResourceManager
         return go;
 
     }
+
+    public T Copy<T>(T origin, Transform parent = null) where T : Object
+    {
+        if (origin == null)
+            return null;
+        T copy = Object.Instantiate(origin, parent);
+        copy.name = $"{origin.name}(Copy)";
+        return copy;
+    }
+
     public void Destroy(GameObject go, float time = 0.0f)
     {
         if (go == null)

@@ -14,6 +14,19 @@ public class Utill
         return component;
     }
 
+    public static T FindParent<T>(GameObject go, string name = null) where T : UnityEngine.Object
+    {
+        if (go == null)
+        {
+            Debug.LogWarning("FindParent 함수의 인자 Gameobject 가 null 값입니다.");
+            return null;
+        }
+        T component = go.transform.parent.GetComponent<T>();
+        if (component == null)
+            return FindParent<T>(go.transform.parent.gameObject, name);
+        return component;
+    }
+
     public static T FindChild<T>(GameObject go, string name = null, bool recursive = false) where T : UnityEngine.Object
     {
         if (go == null)

@@ -76,7 +76,7 @@ public abstract class UI_Base : MonoBehaviour
         return Get<Image>(idx);
     }
 
-    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type = Define.UIEvent.Click)
+    public static void AddUIEvent(GameObject go, Action<PointerEventData> action, Define.UIEvent type)
     {
         if (go == null)
         {
@@ -89,16 +89,30 @@ public abstract class UI_Base : MonoBehaviour
 
         switch (type)
         {
+            case Define.UIEvent.Enter:
+                evt.OnEnterHandler -= action;
+                evt.OnEnterHandler += action;
+                break;
+            case Define.UIEvent.Exit:
+                evt.OnExitHandler -= action;
+                evt.OnExitHandler += action;
+                break;
             case Define.UIEvent.Click:
                 evt.OnClickHandler -= action;
                 evt.OnClickHandler += action;
                 break;
-
+            case Define.UIEvent.BeginDrag:
+                evt.OnBeginDragHandler -= action;
+                evt.OnBeginDragHandler += action;
+                break;
             case Define.UIEvent.Drag:
                 evt.OnDragHandler -= action;
                 evt.OnDragHandler += action;
                 break;
-
+            case Define.UIEvent.EndDrag:
+                evt.OnEndDragHandler -= action;
+                evt.OnEndDragHandler += action;
+                break;
         }
     }
 }

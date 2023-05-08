@@ -15,7 +15,7 @@ public class PlayerInput : MonoBehaviour
     private UI_Inventory _inven = null;
 
     //마우스 이벤트 관련 마스크
-    private int _mask = (1 << (int)Define.Layer.Floor);
+    private int _mask = (1 << (int)Define.Layer.Floor) | (1 << (int)Define.Layer.ItemBox);
 
     void Init()
     {
@@ -36,7 +36,7 @@ public class PlayerInput : MonoBehaviour
         Managers.Input.MouseAction += MouseEvent;
 
         //인벤토리 생성 및 연결
-        _inven = Managers.UI.CreateSceneUI<UI_Inventory>();
+        _inven = Managers.UI.CreateSceneUI<UI_Inventory>(null, transform.parent);
 
     }
 
@@ -61,10 +61,15 @@ public class PlayerInput : MonoBehaviour
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit[] hits; //마우스 클릭 위치에 여러 오브젝트가 있을 경우 가정(ex: 땅, 몬스터, 아이템, 건물)
         hits = Physics.SphereCastAll(_cam.transform.position, 0.5f, ray.direction, 100.0f, _mask);
+        bool isStop = false;
         foreach (RaycastHit hit in hits)
         {
             switch(hit.transform.gameObject.layer)
             {
+                case (int)Define.Layer.ItemBox:
+                    _agent.SetDestination(hit.transform.position);
+                    isStop = true;
+                    break;
                 case (int)Define.Layer.Floor:
                     RaycastHit FloorHit;
                     if (Physics.Raycast(ray, out FloorHit, 100.0f))
@@ -76,6 +81,9 @@ public class PlayerInput : MonoBehaviour
                     }
                     break;
             }
+
+            if (isStop == true)
+                break;
         }
     }
 
