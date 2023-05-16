@@ -1,9 +1,15 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBox : MonoBehaviour
+public class ItemBox : MonoBehaviourPun
 {
+    //현재 클라이언트가 방을 만든 호스티인지 여부
+    //생성된 오브젝트가 현재 컴퓨터에서 생성된 로컬 오브젝트인지 여부
+    //=> Room의 호스트가 생성된 오브젝트 인 경우메만 true를 반환한다.
+    public bool IsMasterClientLocal => PhotonNetwork.IsMasterClient && photonView.IsMine;
+
     [SerializeField]
     private float _triggerDist = 1.5f;
     private SphereCollider _collider;

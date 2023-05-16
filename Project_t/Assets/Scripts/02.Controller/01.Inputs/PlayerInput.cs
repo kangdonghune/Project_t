@@ -1,10 +1,11 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : MonoBehaviourPun
 {
     private Camera _cam = null;
 
@@ -29,20 +30,20 @@ public class PlayerInput : MonoBehaviour
         _playerCtrl = GetComponent<PlayerController>();
 
 
-        //인풋 매니저에 인풋 관련 함수 전달 - 중복 추가 방지를 위해 추가 전 빼는 작업 먼저.
-        Managers.Input.KeyAction -= KeyEvent; 
-        Managers.Input.KeyAction += KeyEvent;
-        Managers.Input.MouseAction -= MouseEvent;
-        Managers.Input.MouseAction += MouseEvent;
-
-        //인벤토리 생성 및 연결
-        _inven = Managers.UI.CreateSceneUI<UI_Inventory>(null, transform.parent);
-
     }
 
     private void Start()
     {
         Init();
+        if (photonView.IsMine == true)
+        {
+            //인풋 매니저에 인풋 관련 함수 전달 - 중복 추가 방지를 위해 추가 전 빼는 작업 먼저.
+            Managers.Input.KeyAction -= KeyEvent;
+            Managers.Input.KeyAction += KeyEvent;
+            Managers.Input.MouseAction -= MouseEvent;
+            Managers.Input.MouseAction += MouseEvent;
+            _cam.gameObject.GetOrAddComponent<CameraController>().SetTarget(gameObject);
+        }
     }
 
     //마우스 입력은 이동

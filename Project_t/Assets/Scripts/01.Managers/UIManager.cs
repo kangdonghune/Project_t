@@ -75,6 +75,22 @@ public class UIManager
         return _sceneDic[typeof(T)][0] as T;
     }
 
+    //월드 ui의 경우 나만 보는 게 아닐 가능성이 존재한다.
+    public T CreateWorldUI<T>(Transform parent, string name = null) where T : UI_BasePun
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name; // 이름 null값이면 타입값으로 이름 설정
+        //플레이어를 따라 이동하는데 플레이어가 pun에서 관리해줄 경우도 산하에 부속된 월드UI가 따라다니는 지 체크
+        GameObject go;
+        go = Managers.Resource.PunInstantiate($"UI/World/{name}", Vector3.zero, Quaternion.identity);
+
+        Canvas canvas = go.GetComponent<Canvas>();
+        canvas.renderMode = RenderMode.WorldSpace;
+        canvas.worldCamera = Camera.main;
+        go.transform.SetParent(parent);
+        return Utill.GetOrAddComponent<T>(go);
+    }
+
     public T CreateSceneUI<T>(string name = null, Transform parent = null) where T : UI_Scene
     {
         if (string.IsNullOrEmpty(name))
@@ -136,5 +152,16 @@ public class UIManager
     {
         while (_popupStack.Count > 0)
             ClosePopupUI();
+    }
+
+    public void Clear()
+    {
+        CloseAllPopupUI();
+        //foreach (var pair in _sceneDic)
+        //{
+        //    foreach (UI_Scene scene in pair.Value)
+        //        Managers.Resource.Destroy(scene.gameObject);
+        //}
+        _sceneDic.Clear();
     }
 }

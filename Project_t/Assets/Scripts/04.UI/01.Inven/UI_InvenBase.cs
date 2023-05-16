@@ -19,12 +19,6 @@ public abstract class UI_InvenBase : UI_Scene
         base.Init();
     }
 
-    IEnumerator CoAfterBinding()
-    {
-        yield return null;
-        SlotLoad();
-    }
-
     protected virtual void SlotLoad()
     {
         Item item = new Item("SilverRing", Define.ItemType.Equipable, false);

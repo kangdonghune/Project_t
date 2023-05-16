@@ -34,7 +34,7 @@ public class UI_ItemBox : UI_InvenBase
             _slotList.Add(Managers.Resource.Instantiate("UI/Scene/Slot/ItemBoxSlot", grid.transform).GetOrAddComponent<UI_ItemBoxSlot>());
         }
         //슬롯을 만들어도 바인딩은 다음 틱에서 실행되니 인벤 로드는 코루틴을 이용해 한 틱 쉰 다음에 실행시켜야 바인딩 널레퍼런스 문제가 안 생긴다.
-        StartCoroutine("CoAfterBinding");
+        Managers.Corutine.CallWaitForOneFrame(() => SlotLoad());
         //해당 창 꺼버리기
         Managers.UI.CanvasEnableChange<UI_ItemBox>(true);
     }

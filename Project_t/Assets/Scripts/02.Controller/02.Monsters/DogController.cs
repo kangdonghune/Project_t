@@ -28,6 +28,8 @@ public class DogController : MonsterController
         _sleepCount = 0f;
         _chaseDist = 10f;
 
+        //TODO-플레이어를 씬 스크립트가 생성해주니 플레이어 연결 관련 부분도 변경해줄 것
+        //플레이어 지정이 아니라 범위 트리거에 플레이어가 충돌할 시 해당 타겟으로 지정하는 식으로
         _player = GameObject.FindWithTag("Player");
     }
     
@@ -92,12 +94,16 @@ public class DogController : MonsterController
             _state = Define.MonState.Idle;
         }
 
-        //임시로 일정 거리 접근 시 데미지 함수 호출
-        float playerDist = (_player.transform.position - _trans.position).magnitude;
-        if(playerDist < _chaseDist)
+        if(_player != null)
         {
-            OnDamged(_player);
+            //임시로 일정 거리 접근 시 데미지 함수 호출
+            float playerDist = (_player.transform.position - _trans.position).magnitude;
+            if (playerDist < _chaseDist)
+            {
+                OnDamged(_player);
+            }
         }
+      
     }
 
     private void C_Idle()

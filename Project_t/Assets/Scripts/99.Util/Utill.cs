@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Utill 
 {
@@ -70,6 +72,17 @@ public class Utill
 
         Debug.LogWarning($"Don't find GameObject {name} in { go.name}");
         return null;
+    }
+
+
+    public static string GetSceneName(Define.Scene type) { return System.Enum.GetName(typeof(Define.Scene), type); }
+
+    public static void ChangeButtonEvent(Button button, string text = null, UnityEngine.Events.UnityAction action = null)
+    {
+        if (text != null)
+            button.gameObject.FindChild<TMP_Text>().text = text;
+        button.onClick.RemoveAllListeners();
+        button.onClick.AddListener(action);
     }
 
 }

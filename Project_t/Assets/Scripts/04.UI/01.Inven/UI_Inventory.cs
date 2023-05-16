@@ -32,7 +32,7 @@ public class UI_Inventory : UI_InvenBase
             _slotList[i].slotNum = i;
         }
         //슬롯을 만들어도 바인딩은 다음 틱에서 실행되니 인벤 로드는 코루틴을 이용해 한 틱 쉰 다음에 실행시켜야 바인딩 널레퍼런스 문제가 안 생긴다.
-        StartCoroutine("CoAfterBinding");
+        Managers.Corutine.CallWaitForOneFrame(()=> SlotLoad());
         Managers.UI.CanvasEnableChange<UI_Inventory>(true);
     }
 

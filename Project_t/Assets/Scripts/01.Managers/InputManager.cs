@@ -26,7 +26,6 @@ public class InputManager
             if (!Input.anyKey)
                 KeyAction.Invoke(Define.KeyEvent.None);
         }
-
         //UI 쪽으로 입력이 들어간 상태라면 아래 마우스 관련 입력을 생략
         if (EventSystem.current.IsPointerOverGameObject())
             return;
@@ -82,5 +81,11 @@ public class InputManager
             }
 
         }
+    }
+
+    public void Clear()
+    {
+        KeyAction = null;
+        MouseAction = null;
     }
 }
