@@ -10,11 +10,11 @@ public class Define
 
     //event
     public enum MouseEvent { LPress, LPointerDown, LPointerUp, LClick, RPress, RPointerDown, RPointerUp, RClick }
-    public enum UIEvent { Enter, Exit, Click,BeginDrag, Drag, EndDrag}
+    public enum UIEvent { Select, DeSelect, Enter, Exit, Click,BeginDrag, Drag, EndDrag}
     public enum KeyEvent { Down, Press, None }
     
     //etc
-    public enum Layer {Floor = 6, ItemBox = 7, }
+    public enum Layer {Floor = 6, ItemBox = 7, Player = 8}
     public enum ItemType { Consumable, Equipable, Projectable, None}
     public enum GridValue { Inven = 5, ItemBox = 4, None}
 

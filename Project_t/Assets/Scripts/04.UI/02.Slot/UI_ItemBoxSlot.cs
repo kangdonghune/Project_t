@@ -13,6 +13,11 @@ public class UI_ItemBoxSlot : UI_Slot
         itemBoxUI = gameObject.FindParent<UI_ItemBox>();
     }
 
+    protected override void OnEndDrag(PointerEventData evt)
+    {
+        base.OnEndDrag(evt);
+    }
+
     protected override void OnClick(PointerEventData evt)
     {
         if (itemBoxUI.targetInven == null)

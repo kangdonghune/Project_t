@@ -1,10 +1,11 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 
-public abstract class MonsterController : MonoBehaviour, IDamageable
+public abstract class MonsterController : MonoBehaviourPun, IDamageable
 {
 
     protected Define.MonState _state = Define.MonState.Sleep;
@@ -14,7 +15,6 @@ public abstract class MonsterController : MonoBehaviour, IDamageable
     protected Transform _trans = null;
     protected CharacterController _ctrl;
 
-
     //상태체크 코루틴 호출 시간 
     protected float _updateTime = 0.3f;
 
@@ -22,6 +22,7 @@ public abstract class MonsterController : MonoBehaviour, IDamageable
     protected Transform _target = null;
     protected Transform _oldTarget = null;
 
+    protected int _targetMask = (1 << (int)Define.Layer.Player);
     protected float _moveSpeed = 0f; // 이동 속도
     protected float _turnSpeed = 0f; // 회전 속도
     [SerializeField]

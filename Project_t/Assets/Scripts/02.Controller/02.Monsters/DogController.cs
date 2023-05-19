@@ -1,21 +1,24 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 public class DogController : MonsterController
-{
-
+{ 
     //애니메이션 파라미터
     private int hashAttackTrigger = Animator.StringToHash("Attack");
 
-    //임시 플레이어 변수
-    private GameObject _player;
+    private GameObject player;
 
-    
     void Start()
     {
-        StartCoroutine("CoCheckState");
+
+        //상태 체크는 생성한 측에서 한정적으로 관리
+        if (photonView.IsMine == true)
+        {
+            StartCoroutine("CoCheckState");
+        }
     }
 
     protected override void Init()
@@ -28,13 +31,20 @@ public class DogController : MonsterController
         _sleepCount = 0f;
         _chaseDist = 10f;
 
-        //TODO-플레이어를 씬 스크립트가 생성해주니 플레이어 연결 관련 부분도 변경해줄 것
-        //플레이어 지정이 아니라 범위 트리거에 플레이어가 충돌할 시 해당 타겟으로 지정하는 식으로
-        _player = GameObject.FindWithTag("Player");
+        if (photonView.IsMine == false) //내 클라이언트 플레이어가 아니라면
+        {
+            //리모트 플레이어의 이동,회전은 포톤이 관리하니 이게 활성화되어있으면 문제가 발생
+            _agent.enabled = false;
+            _ctrl.enabled = false;
+        }
     }
     
     void Update()
     {
+        //마찬가지로 위치,애니메이션 관련 동작들은 마스터에서 photonview가 배포
+        if (photonView.IsMine == false)
+            return;
+
         CheckState();
     }
 
@@ -58,6 +68,30 @@ public class DogController : MonsterController
         }
     }
 
+
+    private void ScanTarget()
+    {
+        //이미 타겟이 지정이 되어 있거나 복귀 상태라면 생략 
+        if (_target != null || _state == Define.MonState.Return)
+            return;
+        Collider[] colliders = Physics.OverlapSphere(_spawnPos, _chaseDist, _targetMask);
+
+        float targetDist = float.MaxValue;
+        GameObject target = null;
+        foreach (Collider col in colliders)
+        {
+            float thisDist = (col.transform.position - transform.position).magnitude;
+            if(thisDist < targetDist)
+            {
+                targetDist = thisDist;
+                target = col.gameObject;
+            }
+        }
+        if(target != null)
+            OnDamged(target);
+    }
+
+
     #region stateFunc
     IEnumerator CoCheckState()
     {
@@ -66,9 +100,11 @@ public class DogController : MonsterController
             switch (_state)
             {
                 case Define.MonState.Sleep:
+                    ScanTarget();
                     C_Sleep();
                     break;
                 case Define.MonState.Idle:
+                    ScanTarget();
                     C_Idle();
                     break;
                 case Define.MonState.Chase:
@@ -93,17 +129,6 @@ public class DogController : MonsterController
             _ani.SetBool("isRage", true);
             _state = Define.MonState.Idle;
         }
-
-        if(_player != null)
-        {
-            //임시로 일정 거리 접근 시 데미지 함수 호출
-            float playerDist = (_player.transform.position - _trans.position).magnitude;
-            if (playerDist < _chaseDist)
-            {
-                OnDamged(_player);
-            }
-        }
-      
     }
 
     private void C_Idle()
@@ -148,12 +173,9 @@ public class DogController : MonsterController
 
     private void ReturnCount()
     {
-        if (_target == null)
-            return;
-
         float spawnDist = (_spawnPos - _trans.position).magnitude;
         //추격 범위를 벗어난 상태라면
-        if (spawnDist > _chaseDist)
+        if (_target == null || spawnDist > _chaseDist)
         {
             _patience -= Time.deltaTime;
             if (_patience < 0f)
@@ -168,6 +190,13 @@ public class DogController : MonsterController
 
     private void Chase()
     {
+        if(_target == null)
+        {
+            _state = Define.MonState.Return;
+            _nextState = Define.MonState.Return;
+            _patience = 2f; //인내심 수치 초기화
+            return;
+        }
         float targetDist = (_target.position - _trans.position).magnitude;
         if (targetDist < _attackRange)
         {
@@ -199,6 +228,9 @@ public class DogController : MonsterController
     }
     public void AnimationEnd()
     {
+        if (photonView.IsMine == false)
+            return;
+
         if (_nextState == Define.MonState.None)
         {
             Debug.LogError($"{gameObject.name}: NextState is None {_state}");
@@ -210,6 +242,7 @@ public class DogController : MonsterController
 
     private void OnDestroy()
     {
-        StopAllCoroutines(); //제거 전 모든 코루틴 제거
+        if(photonView.IsMine == true)
+            StopAllCoroutines(); //제거 전 모든 코루틴 제거
     }
 }

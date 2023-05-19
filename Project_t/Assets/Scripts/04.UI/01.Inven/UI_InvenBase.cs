@@ -8,7 +8,7 @@ public abstract class UI_InvenBase : UI_Scene
 {
     protected int _gridCount = (int)Define.GridValue.None;
     protected GridLayoutGroup.Constraint _constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-    protected List<UI_Slot> _slotList;
+    public List<UI_Slot> SlotList { get; protected set; }
 
 
     [SerializeField]
@@ -19,10 +19,38 @@ public abstract class UI_InvenBase : UI_Scene
         base.Init();
     }
 
-    protected virtual void SlotLoad()
+    protected virtual void SlotsLoad()
     {
         Item item = new Item("SilverRing", Define.ItemType.Equipable, false);
         AddItemToSlot(item);
+    }
+
+    public virtual void InvenChanged()
+    {
+
+    }
+
+    public virtual void UpdateSlots()
+    {
+        for(int idx = 0; idx < SlotList.Count; idx++)
+        {
+            SlotList[idx].UpdateSlot();
+        }
+    }
+
+    public virtual void UpdateSlots(List<UI_Slot> slots)
+    {
+        if(SlotList.Count != slots.Count)
+        {
+            Debug.Log("UpdateSlots 의 매개변수와 해당 게임오브젝트의 인벤토리가 다릅니다.");
+            return;
+        }    
+
+        for(int idx = 0; idx < slots.Count; idx++)
+        {
+            SlotList[idx].Item = slots[idx].Item;
+        }
+        UpdateSlots();
     }
 
 
@@ -41,7 +69,7 @@ public abstract class UI_InvenBase : UI_Scene
         //아이템이 중첩 가능한 소비템이고 이번 슬롯이 해당 아이템과 같다면
         if (item.Duplicate == true)
         {
-            foreach (UI_Slot slot in _slotList)
+            foreach (UI_Slot slot in SlotList)
             {
                 if (slot.Item == null) //해당 슬롯이 비어있다면
                     continue;
@@ -53,7 +81,7 @@ public abstract class UI_InvenBase : UI_Scene
             }
         }
         //중복 가능한 아이템이 아니거나 중복 가능한 아이템을 소지한 경우가 아닌 경우
-        foreach (UI_Slot slot in _slotList)
+        foreach (UI_Slot slot in SlotList)
         {
             if (slot.Item == null) //해당 슬롯이 비어있고
             {

@@ -8,7 +8,9 @@ public class SignInScene : BaseScene
     {
         base.Init();
         SceneType = Define.Scene.SignIn;
-        Managers.UI.CreateSceneUI<UI_Signin>(); //立加 ui 积己
+        GameObject signUI = GameObject.Find("UI_Signin");
+        if(signUI == null)
+            Managers.UI.CreateSceneUI<UI_Signin>(); //立加 ui 积己
     }
 
     public override void Clear()
@@ -16,4 +18,8 @@ public class SignInScene : BaseScene
         Managers.Clear();
     }
 
+    public override bool SpawnDefault()
+    {
+        return true;
+    }
 }

@@ -13,6 +13,13 @@ public class GameScene : BaseScene
         GameManager.Instance.SpawnPlayer(PhotonNetwork.LocalPlayer.ActorNumber - 1);
     }
 
+    //마스터만 해당 함수를 호출하도록 관리
+    public override bool SpawnDefault()
+    {
+        Managers.Resource.PunInstantiate("DogPolyart");
+        //Managers.Resource.PunInstantiate("Item Box");
+        return true;
+    }
  
     public override void Clear()
     {

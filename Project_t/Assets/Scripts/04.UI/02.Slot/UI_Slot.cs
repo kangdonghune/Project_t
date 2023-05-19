@@ -17,18 +17,19 @@ public class UI_Slot : UI_Base
         ItemCount
     }
 
-
     public Item Item { get; set; }
     protected Define.ItemType slotType = Define.ItemType.None;
     public int slotNum = 0;
     public UI_Popup DragImageUI;
     public GameObject DragImage;
     protected UI_Root _UIRoot;
+    private UI_InvenBase inven;
     protected override void Init()
     {
         Bind<Image>(typeof(Images));
         Bind<TMP_Text>(typeof(Texts));
         Item = null;
+        inven = gameObject.FindParent<UI_InvenBase>();
         _UIRoot = transform.root.gameObject.GetComponent<UI_Root>();
         BindUIEvent();
         UpdateSlot();
@@ -80,8 +81,10 @@ public class UI_Slot : UI_Base
         }
     }
 
+    //이걸 할 때 인벤토리까지 전달을 해줘야 인벤토리가 포톤으로 전파를 해줄 수 있다.
     public void UpdateSlot()
     {
+        inven.InvenChanged();
         if (Item == null)
         {
             Get<Image>((int)Images.ItemImage).sprite = null;

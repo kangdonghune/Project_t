@@ -22,6 +22,7 @@ public abstract class BaseScene : MonoBehaviour
         }
     }
 
+    public abstract bool SpawnDefault();
     public abstract void Clear();
 
 

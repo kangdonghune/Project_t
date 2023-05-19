@@ -14,4 +14,9 @@ public class LobbyScene : BaseScene
     {
         Managers.Clear();
     }
+
+    public override bool SpawnDefault()
+    {
+        return false;
+    }
 }

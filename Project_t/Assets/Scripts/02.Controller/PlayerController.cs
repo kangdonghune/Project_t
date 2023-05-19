@@ -29,6 +29,13 @@ public class PlayerController : MonoBehaviourPun
         _ctrl = GetComponent<CharacterController>();
         _ani = GetComponent<Animator>();
 
+        //내가 마스터 클라이언트라면 기초적인 생성 명령
+        if(IsMasterClientLocal == true)
+        {
+            if (Managers.Scene.CurrentScene.SpawnDefault() == false)
+                Debug.LogWarning($"default Spawn Failed {Managers.Scene.CurrentScene}");
+        }
+
         if(photonView.IsMine == false) //내 클라이언트 플레이어가 아니라면
         {
             //리모트 플레이어의 이동,회전은 포톤이 관리하니 이게 활성화되어있으면 문제가 발생

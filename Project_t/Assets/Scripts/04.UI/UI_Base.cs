@@ -91,6 +91,14 @@ public abstract class UI_Base : MonoBehaviour
 
         switch (type)
         {
+            case Define.UIEvent.Select:
+                evt.OnSelectHandler -= action;
+                evt.OnSelectHandler += action;
+                break;
+            case Define.UIEvent.DeSelect:
+                evt.OnDeselectHandler -= action;
+                evt.OnDeselectHandler += action;
+                break;
             case Define.UIEvent.Enter:
                 evt.OnEnterHandler -= action;
                 evt.OnEnterHandler += action;

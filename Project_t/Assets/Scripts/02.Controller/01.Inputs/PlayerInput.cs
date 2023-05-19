@@ -28,6 +28,10 @@ public class PlayerInput : MonoBehaviourPun
         _agent.updateRotation = false;
         _ani = GetComponent<Animator>();
         _playerCtrl = GetComponent<PlayerController>();
+        if(photonView.IsMine == true)
+        {
+            _inven = Managers.UI.GetSceneUI<UI_Inventory>();
+        }
 
 
     }

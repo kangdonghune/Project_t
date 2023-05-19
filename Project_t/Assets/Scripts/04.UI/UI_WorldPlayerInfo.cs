@@ -26,14 +26,6 @@ public class UI_WorldPlayerInfo : UI_BasePun
             GetText((int)Texts.UserID).text = photonView.Owner.NickName;
         }
     }
-
-    //punrpc ¿¹½Ã
-    //[PunRPC]
-    //public void SendMyName(string name)
-    //{
-    //    GetText((int)Texts.UserID).text = name;
-    //}
-
     private void Update()
     {
         if (photonView.IsMine == true)

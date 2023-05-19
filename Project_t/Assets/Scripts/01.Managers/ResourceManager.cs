@@ -20,6 +20,8 @@ public class ResourceManager
         //로드 실패 시
         if (original == null)
             return null;
+        if (original.GetComponent<PhotonView>() != null) //만약 프리팹이 포톤뷰를 지니고 있으면 별도 함수로 처리
+            return PunInstantiate(path, original.transform.position, original.transform.rotation);
         //TODO
         //추후 오브젝트 풀링 관련하여 추가
         GameObject go = Object.Instantiate(original, parent);
