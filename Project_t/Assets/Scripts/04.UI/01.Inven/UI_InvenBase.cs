@@ -21,7 +21,7 @@ public abstract class UI_InvenBase : UI_Scene
 
     protected virtual void SlotsLoad()
     {
-        Item item = new Item("SilverRing", Define.ItemType.Equipable, false);
+        Item item = Managers.Data.ItemDict[1];
         AddItemToSlot(item);
     }
 

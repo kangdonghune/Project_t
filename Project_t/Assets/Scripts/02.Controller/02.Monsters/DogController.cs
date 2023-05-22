@@ -223,6 +223,7 @@ public class DogController : MonsterController
             _agent.isStopped = true;
             _agent.velocity = Vector3.zero;
             _target = null;
+            return;
         }
         Move();
     }

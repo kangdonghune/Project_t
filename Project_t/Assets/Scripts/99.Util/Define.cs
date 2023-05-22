@@ -20,4 +20,5 @@ public class Define
 
     //Scene
     public enum Scene { UnKnown, SignIn, Lobby, Game}
+
 }

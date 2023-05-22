@@ -17,7 +17,7 @@ public class GameScene : BaseScene
     public override bool SpawnDefault()
     {
         Managers.Resource.PunInstantiate("DogPolyart");
-        //Managers.Resource.PunInstantiate("Item Box");
+        Managers.Resource.PunInstantiate("Item Box");
         return true;
     }
  

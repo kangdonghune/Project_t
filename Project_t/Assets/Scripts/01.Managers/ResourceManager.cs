@@ -1,10 +1,18 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class ResourceManager
 {
+
+    //파이어베이스로 관리하는 json은 유니티 외부 폴더에 저장하기에 리소스.로드가 아닌 파일 리드로 읽어야한다.
+    public string LoadJsonByFirebase<T>(string path) where T : Object
+    {
+        return File.ReadAllText($"{Application.persistentDataPath}/{path}");
+       
+    }
 
     public T Load<T>(string path) where T : Object
     {

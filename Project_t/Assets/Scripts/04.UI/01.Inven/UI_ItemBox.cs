@@ -42,7 +42,7 @@ public class UI_ItemBox : UI_InvenBase
 
     protected override void SlotsLoad()
     {
-        Item item = new Item("Apple", Define.ItemType.Consumable, true, 10);
+        Item item = Managers.Data.ItemDict[2];
         AddItemToSlot(item);
     }
 

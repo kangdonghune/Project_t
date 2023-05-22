@@ -33,8 +33,11 @@ public class ItemBox : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        _canvas.enabled = true;
         other.GetComponent<PlayerController>().Stop();
+        if(other.GetComponent<PlayerController>().photonView.IsMine == true)
+        {
+            _canvas.enabled = true;
+        }
         //UI_InvenBase inven = Managers.UI.GetSceneUI<UI_Inventory>();
         //_itemBoxUI.SetTargetInven(inven);
         //Managers.UI.CanvasEnableChange<UI_Inventory>(false, inven);
@@ -42,7 +45,10 @@ public class ItemBox : MonoBehaviourPun
 
     private void OnTriggerExit(Collider other)
     {
-        _canvas.enabled = false;
+        if (other.GetComponent<PlayerController>().photonView.IsMine == true)
+        {
+            _canvas.enabled = false;
+        }
         //UI_InvenBase inven = Managers.UI.GetSceneUI<UI_Inventory>();
         //Managers.UI.CanvasEnableChange<UI_Inventory>(true, inven);
     }
@@ -51,16 +57,7 @@ public class ItemBox : MonoBehaviourPun
     {
         if(photonView.IsMine == true)
         {
-            for(int idx = 0; idx < _itemBoxUI.SlotList.Count; idx++)
-            {
-                Item item = _itemBoxUI.SlotList[idx].Item;
-                if(item == null)
-                    photonView.RPC("RPC_BroadcastNullItem", RpcTarget.AllBuffered, idx);
-                else
-                    photonView.RPC("RPC_BroadcastItem", RpcTarget.AllBuffered, idx, item.Name, item.Type, item.Duplicate, item.Count);
-            }
-            photonView.RPC("RPC_BroadcastSlotUpdate", RpcTarget.AllBuffered);
-
+           // Debug.Log("UpdateItemBox Call");
         }
     }
 
@@ -73,8 +70,7 @@ public class ItemBox : MonoBehaviourPun
     [PunRPC]
     private void RPC_BroadcastItem(int idx, string name, Define.ItemType type, bool duplicate, int count)
     {
-        Item item = new Item(name, type, duplicate, count);
-        _itemBoxUI.SlotList[idx].Item = item;
+
     }
 
     [PunRPC]

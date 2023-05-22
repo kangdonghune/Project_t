@@ -48,10 +48,26 @@ public abstract class MonsterController : MonoBehaviourPun, IDamageable
     protected virtual void Move()
     {
         Vector3 lookPos = _agent.destination - _trans.position;
+  
         lookPos.y = _trans.position.y; //x 축 기준 회전하여 모델링이 아래로 기울어 지는 거 방지
+        if (lookPos == Vector3.zero)
+        {
+            Stop();
+            return;
+        }
         _trans.rotation = Quaternion.Slerp(_trans.rotation, Quaternion.LookRotation(lookPos), _moveSpeed * Time.deltaTime);
         _ctrl.Move(_agent.desiredVelocity.normalized * _moveSpeed * Time.deltaTime);
         _agent.velocity = _ctrl.velocity;
+    }
+
+    public void Stop()
+    {
+        if (photonView.IsMine == false)
+            return;
+        _state = Define.MonState.Idle;
+        // 캐릭터가 멈추는 시점에서 네비 메쉬의 가속도와 작동 여부를 같이 멈춰줘야 네비메쉬가 어긋나서 따로 움직이지 않는다.
+        _agent.isStopped = true;
+        _agent.velocity = Vector3.zero;
     }
 
     #region InterfaceFunc
