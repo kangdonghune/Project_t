@@ -13,26 +13,27 @@ public interface ILoader<Key,Value>
 
 public class DataManager
 {
+    private Dictionary<string, Action> _bindDict = new Dictionary<string, Action>();
 
     public Dictionary<int, Item> ItemDict { get; private set; } = new Dictionary<int, Item>();
 
-
-    private Action BindJson;
-
     public void Init()
     {
-        BindJson -= Binding;
-        BindJson += Binding;
-        OnDownloadFile("Item/ItemData.json");
+        Binding();
+        foreach(var pair in _bindDict)
+        {
+            OnDownloadFile(pair.Key, pair.Value);
+        }
+
 
     }
 
     private void Binding()
     {
-        ItemDict = LoadJson<ItemData, int, Item>("Item/ItemData.json").MakeDict();
+        _bindDict.Add("Item/ItemData.json", () => { ItemDict = LoadJson<ItemData, int, Item>("Item/ItemData.json").MakeDict(); });
     }
 
-    public void OnDownloadFile(string path)
+    public void OnDownloadFile(string path, Action action)
     {
         FirebaseStorage storage = FirebaseStorage.DefaultInstance;
         StorageReference storage_ref = storage.GetReferenceFromUrl("gs://unity-project-t-b0134.appspot.com/");
@@ -53,7 +54,7 @@ public class DataManager
             if (!file_task.IsFaulted && !file_task.IsCanceled)
             {
                 Debug.Log($"OnDownload Success : /{path}");
-                BindJson.Invoke();
+                action.Invoke();
             }
             else
             {

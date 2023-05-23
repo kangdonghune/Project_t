@@ -28,6 +28,7 @@ public class ItemBox : MonoBehaviourPun
         Init();
         _itemBoxUI = Managers.UI.CreateSceneUI<UI_ItemBox>();
         _itemBoxUI.ItemBox = this;
+        Managers.Corutine.CallWaitForOneFrame(() => _itemBoxUI.SlotsLoad());
         _canvas = _itemBoxUI.GetComponent<Canvas>();
     }
 
@@ -57,25 +58,18 @@ public class ItemBox : MonoBehaviourPun
     {
         if(photonView.IsMine == true)
         {
-           // Debug.Log("UpdateItemBox Call");
+            int[] IDs = new int[_itemBoxUI.SlotList.Count];
+            for (int idx = 0; idx < _itemBoxUI.SlotList.Count; idx++)
+                IDs[idx] = _itemBoxUI.SlotList[idx].Item.ID;
+            photonView.RPC("RPC_BroadcastItem", RpcTarget.Others, IDs);
         }
     }
 
     [PunRPC]
-    private void RPC_BroadcastNullItem(int idx)
+    private void RPC_BroadcastItem(int[] IDs)
     {
-        _itemBoxUI.SlotList[idx].Item = null;
-    }
-
-    [PunRPC]
-    private void RPC_BroadcastItem(int idx, string name, Define.ItemType type, bool duplicate, int count)
-    {
-
-    }
-
-    [PunRPC]
-    private void RPC_BroadcastSlotUpdate()
-    {
+        for(int idx = 0; idx < IDs.Length; idx++)
+            _itemBoxUI.SlotList[idx].Item = Managers.Data.ItemDict[IDs[idx]];
         _itemBoxUI.UpdateSlots();
     }
 

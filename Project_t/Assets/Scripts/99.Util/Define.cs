@@ -15,7 +15,7 @@ public class Define
     
     //etc
     public enum Layer {Floor = 6, ItemBox = 7, Player = 8}
-    public enum ItemType { Consumable, Equipable, Projectable, None}
+    public enum ItemType { None, Consumable, Equipable, Projectable}
     public enum GridValue { Inven = 5, ItemBox = 4, None}
 
     //Scene

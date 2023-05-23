@@ -19,7 +19,7 @@ public abstract class UI_InvenBase : UI_Scene
         base.Init();
     }
 
-    protected virtual void SlotsLoad()
+    public virtual void SlotsLoad()
     {
         Item item = Managers.Data.ItemDict[1];
         AddItemToSlot(item);
@@ -83,7 +83,7 @@ public abstract class UI_InvenBase : UI_Scene
         //중복 가능한 아이템이 아니거나 중복 가능한 아이템을 소지한 경우가 아닌 경우
         foreach (UI_Slot slot in SlotList)
         {
-            if (slot.Item == null) //해당 슬롯이 비어있고
+            if (slot.Item.ID == 0) //해당 슬롯이 비어있고
             {
                 if (slot.InsertItem(item) == true) //해당 슬롯에 아이템이 성공적으로 추가되었다면
                     return true;

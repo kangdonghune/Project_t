@@ -28,7 +28,7 @@ public class UI_Slot : UI_Base
     {
         Bind<Image>(typeof(Images));
         Bind<TMP_Text>(typeof(Texts));
-        Item = null;
+        Item = Managers.Data.ItemDict[0];// 디펄트값은 0번 아이템으로
         inven = gameObject.FindParent<UI_InvenBase>();
         _UIRoot = transform.root.gameObject.GetComponent<UI_Root>();
         BindUIEvent();
@@ -44,7 +44,7 @@ public class UI_Slot : UI_Base
         if (CheckType(item) == false)
             return false;
         //현재 슬롯의 아이템 또는 삽입하고자 하는 아이템이 비어있다면
-        if(Item == null || item == null)
+        if(Item.ID == 0 || item.ID == 0)
         {
             Item = item;
         }
@@ -59,6 +59,7 @@ public class UI_Slot : UI_Base
         else
             Item = item; //슬롯의 아이템을 해당 아이템으로 변경
         UpdateSlot();
+        inven.InvenChanged();
         return true;
     }
 
@@ -66,9 +67,12 @@ public class UI_Slot : UI_Base
     {
         Item.AddCount(count);
         if (Item.Count <= 0) RemoveItem();
-        else UpdateSlot(); 
+        else UpdateSlot();
+        inven.InvenChanged();
     }
-    public void RemoveItem() { Item = null; UpdateSlot(); }
+    public void RemoveItem() { Item = Managers.Data.ItemDict[0]; UpdateSlot();
+        inven.InvenChanged();
+    }
 
     public void ChangeSlot<T>(T slot) where T : UI_Slot
     {
@@ -79,13 +83,13 @@ public class UI_Slot : UI_Base
             InsertItem(slot.Item);
             slot.InsertItem(myItem);
         }
+        inven.InvenChanged();
     }
 
     //이걸 할 때 인벤토리까지 전달을 해줘야 인벤토리가 포톤으로 전파를 해줄 수 있다.
     public void UpdateSlot()
     {
-        inven.InvenChanged();
-        if (Item == null)
+        if (Item.ID == 0)
         {
             Get<Image>((int)Images.ItemImage).sprite = null;
             Get<Image>((int)Images.ItemImage).color = new Color(1, 1, 1, 0);
