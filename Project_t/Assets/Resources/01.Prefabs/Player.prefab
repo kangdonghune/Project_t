@@ -761,12 +761,12 @@ NavMeshAgent:
   m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!114 &5877948826715385967
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,8 +792,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
-  speed: 10
-  turnSpeed: 20
+  AttackRange: 5
+  Speed: 10
+  TurnSpeed: 10
+  firePos: {fileID: 5945632458180095553}
 --- !u!143 &5877948826715385965
 CharacterController:
   m_ObjectHideFlags: 0
@@ -808,8 +810,8 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_StepOffset: 0.75
+  m_SkinWidth: 0.05
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &5910055092215739828
@@ -2665,15 +2667,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.2103
+      value: -0.226
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0167
+      value: -0.019
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.046
+      value: 0.048
       objectReference: {fileID: 0}
     - target: {fileID: 402066, guid: b15e51dd92f0b8e40b47f478493fad2b, type: 3}
       propertyPath: m_LocalRotation.w

@@ -16,7 +16,8 @@ public class PlayerInput : MonoBehaviourPun
     private UI_Inventory _inven = null;
 
     //마우스 이벤트 관련 마스크
-    private int _mask = (1 << (int)Define.Layer.Floor) | (1 << (int)Define.Layer.ItemBox);
+    private int _mask = (1 << (int)Define.Layer.Floor) | (1 << (int)Define.Layer.ItemBox) |
+                        (1 << (int)Define.Layer.Monster) | (1 << (int)Define.Layer.Player);
 
     void Init()
     {
@@ -71,14 +72,32 @@ public class PlayerInput : MonoBehaviourPun
         {
             switch(hit.transform.gameObject.layer)
             {
+                case (int)Define.Layer.Monster:
+                case (int)Define.Layer.Player:
+                    //현재 플레이어의 타겟과 피킹된 플레이어가 다르다면
+                    if(_playerCtrl.Target != hit.transform)
+                    {
+                        _playerCtrl.Target = hit.transform;
+                        _ani.SetBool("IsMove", true);
+                        _agent.isStopped = false;
+                        _agent.SetDestination(hit.transform.position);
+                        _playerCtrl.State = Define.State.Chase;
+                    }
+                    isStop = true;
+                    break;
                 case (int)Define.Layer.ItemBox:
+                    _playerCtrl.Target = null;
+                    _ani.SetBool("IsMove", true);
+                    _agent.isStopped = false;
                     _agent.SetDestination(hit.transform.position);
+                    _playerCtrl.State = Define.State.Move;
                     isStop = true;
                     break;
                 case (int)Define.Layer.Floor:
                     RaycastHit FloorHit;
                     if (Physics.Raycast(ray, out FloorHit, 100.0f))
                     {
+                        _playerCtrl.Target = null;
                         _ani.SetBool("IsMove", true);
                         _agent.isStopped = false;
                         _agent.SetDestination(FloorHit.point);

@@ -74,8 +74,12 @@ public class ResourceManager
     {
         if (go == null)
             return;
-        //TODO
-        //추후 오브젝트 풀링 관련하여 추가
+        //포톤에서 관리하는 대상이면
+        if(go.GetComponent<PhotonView>() != null)
+        {
+            PhotonNetwork.Destroy(go);
+            return;
+        }
 
         Object.Destroy(go, time);
     }

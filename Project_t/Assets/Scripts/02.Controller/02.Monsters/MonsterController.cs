@@ -22,7 +22,7 @@ public abstract class MonsterController : MonoBehaviourPun, IDamageable
     protected Transform _target = null;
     protected Transform _oldTarget = null;
 
-    protected int _targetMask = (1 << (int)Define.Layer.Player);
+    protected int _targetMask = (1 << (int)Define.Layer.Player) | (1 << (int)Define.Layer.MyPlayer);
     protected float _moveSpeed = 0f; // 이동 속도
     protected float _turnSpeed = 0f; // 회전 속도
     [SerializeField]

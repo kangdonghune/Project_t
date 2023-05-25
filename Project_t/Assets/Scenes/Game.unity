@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.3
+    agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.75
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.1
+    cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 25fe7c191ed212542a8786472f7c0842, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 784eca1230d5efa49a4a546f5f9d129d, type: 2}
 --- !u!1 &268948211
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ Transform:
   m_GameObject: {fileID: 268948211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10.12}
-  m_LocalScale: {x: 18.502, y: 1, z: 1}
+  m_LocalScale: {x: 18.502, y: 6.7897, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 467205472}
@@ -573,7 +573,7 @@ Transform:
   m_GameObject: {fileID: 940076155}
   m_LocalRotation: {x: -0, y: -0.6093913, z: -0, w: 0.7928697}
   m_LocalPosition: {x: -1.9, y: 0, z: 8.9}
-  m_LocalScale: {x: 1, y: 1, z: 12.832}
+  m_LocalScale: {x: 1, y: 5.7569, z: 12.832}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 467205472}
@@ -799,7 +799,7 @@ Transform:
   m_GameObject: {fileID: 1641442556}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.1, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 7.6926}
+  m_LocalScale: {x: 1, y: 8.1027, z: 7.6926}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 467205472}
@@ -994,7 +994,7 @@ Transform:
   m_GameObject: {fileID: 1892286619}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.1, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 9.936673}
+  m_LocalScale: {x: 1, y: 8.9251, z: 9.936673}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 467205472}

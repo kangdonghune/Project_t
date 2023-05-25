@@ -154,8 +154,11 @@ public class DogController : MonsterController
     }
     private void C_Chase()
     {
-        _agent.isStopped = false;
-        _agent.SetDestination(_target.position); //0.3초 단위로 목적지 재설정
+        if(_target != null)
+        {
+            _agent.isStopped = false;
+            _agent.SetDestination(_target.position); //0.3초 단위로 목적지 재설정
+        }
     }
     private void C_Attack()
     {
