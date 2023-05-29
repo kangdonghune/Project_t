@@ -61,7 +61,7 @@ public class ItemBox : MonoBehaviourPun
             int[] IDs = new int[_itemBoxUI.SlotList.Count];
             for (int idx = 0; idx < _itemBoxUI.SlotList.Count; idx++)
                 IDs[idx] = _itemBoxUI.SlotList[idx].Item.ID;
-            photonView.RPC("RPC_BroadcastItem", RpcTarget.Others, IDs);
+            photonView.RPC("RPC_BroadcastItem", RpcTarget.OthersBuffered, IDs);
         }
     }
 

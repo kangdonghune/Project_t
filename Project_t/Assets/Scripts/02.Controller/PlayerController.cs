@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviourPun, IDamageable
         else
         {
             gameObject.layer = (int)Define.Layer.MyPlayer;
+            StartCoroutine(CoUpdate());
+            _agent.avoidancePriority = PhotonNetwork.LocalPlayer.ActorNumber;
         }
     }
 
@@ -78,6 +80,22 @@ public class PlayerController : MonoBehaviourPun, IDamageable
                 break;
             case Define.State.None:
                 break;
+        }
+    }
+
+    IEnumerator CoUpdate()
+    {
+        if (photonView.IsMine == false)
+            yield break;
+        while(true)
+        {
+            switch (State)
+            {
+                case Define.State.Chase:
+                    C_Chase();
+                    break;
+            }
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
@@ -131,19 +149,6 @@ public class PlayerController : MonoBehaviourPun, IDamageable
         }
         Move();
     }
-
-    public void ChaseStart()
-    {
-        if(photonView.IsMine == true)
-            StartCoroutine(CoUpdateTargetPosition());
-    }
-
-    public void ChaseEnd()
-    {
-        if (photonView.IsMine == true)
-            StopCoroutine(CoUpdateTargetPosition());
-    }
-
     void Attack()
     {
         _ani.SetTrigger(hashAttackTrigger);
@@ -179,18 +184,10 @@ public class PlayerController : MonoBehaviourPun, IDamageable
         
     }
 
-    IEnumerator CoUpdateTargetPosition()
+    void C_Chase()
     {
-        //타겟이 존재하고 현재 추격 또는 공격 중이라면
-        while(Target != null)
-        {
-            if(State == Define.State.Chase)
-                _agent.SetDestination(Target.position); //0.3초 단위로 목적지 재설정
-            yield return new WaitForSeconds(0.3f); // 0.3초 간격으로 상태체크(매 업데이트 순간 체크하는 건 비효율적인 부분)
-        }
-        //타겟이 없다면
-        Stop();
-        yield break;
+        if(State == Define.State.Chase)
+            _agent.SetDestination(Target.position); //0.3초 단위로 목적지 재설정
     }
 
     void OnFire()

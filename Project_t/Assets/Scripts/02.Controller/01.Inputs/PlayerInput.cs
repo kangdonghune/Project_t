@@ -77,11 +77,14 @@ public class PlayerInput : MonoBehaviourPun
                     //현재 플레이어의 타겟과 피킹된 플레이어가 다르다면
                     if(_playerCtrl.Target != hit.transform)
                     {
-                        _playerCtrl.Target = hit.transform;
-                        _ani.SetBool("IsMove", true);
-                        _agent.isStopped = false;
-                        _agent.SetDestination(hit.transform.position);
-                        _playerCtrl.State = Define.State.Chase;
+                        if(_playerCtrl.State != Define.State.Ready)
+                        {
+                            _playerCtrl.Target = hit.transform;
+                            _ani.SetBool("IsMove", true);
+                            _agent.isStopped = false;
+                            _agent.SetDestination(hit.transform.position);
+                            _playerCtrl.State = Define.State.Chase;
+                        }
                     }
                     isStop = true;
                     break;

@@ -150,6 +150,7 @@ public class DogController : MonsterController
         {
             _state = Define.MonState.Chase;
             _ani.SetBool("isChase", true);
+            _agent.SetDestination(_target.position);
         }
     }
     private void C_Chase()
